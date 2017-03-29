@@ -5,27 +5,41 @@ var connection = mysql.createConnection({
   password : '',
   database : 'library'
 });
-
-connection.connect();
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var open = require('open'); 
 
-
+var urlencodedParser = bodyParser.urlencoded({ extended: true })
 app.use(express.static('public'));
 
-app.get('/getdata', function (req, res) {
-	connection.query("SELECT * FROM `books`",function (
-		error, results, fields) {
-  if (error) throw error;
-  res.send(results);
-	});
+connection.connect();
 
-});
-app.get('/insert', function (req, res) {
-	connection.query()
+app.get('/getdata', function (req, res) {
+  connection.query("SELECT * FROM `books`",function (
+    error, results, fields) {
+      if (error) throw error;
+      res.send(results);
+  });
+
 })
-app.get('/insert', function (req, res) {
-	connection.query()
+var name,author,description,av;
+app.post('/adddata', urlencodedParser, function (req, res) {
+  name = req.body.name;
+  author = req.body.author;
+  description = req.body.description;
+  connection.query("INSERT INTO `books`(`name`, `author`, `avaibility`, `description`) VALUES (?,?,'Available',?)", [name, author,description] ,
+    function(error,results,fields){
+      if (error) throw error;
+      open("file:///C:/burhan/Programs/nodejs/mini%20project/library.html", "chrome");
+  });
+})
+app.post('/deletedata', function (req, res) {
+  connection.query("DELETE FROM `books` WHERE `name` = ?",[req.body.name], function(error,results,fields){
+      if (error) throw error;
+
+      open("file:///C:/burhan/Programs/nodejs/mini%20project/library.html", "chrome");
+  });
 })
 
 var server = app.listen(8081, function () {
