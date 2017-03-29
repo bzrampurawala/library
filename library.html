@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Library</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" style="border-radius: 0px;">
+  <div class="container" style="margin-left: 700px;font-size: 40px;color: #ffffff;">
+    <div class="navbar-header">
+      <p>My Library</p>
+    </div>
+  </div>
+</nav>
+<div class="panel" style="margin-top: 75px">
+
+    <table class="table table-hover" id="list" style="margin-left: 25px;font-size: 20px; margin-top: 25px" >
+    
+   </table>
+
+</div>
+<div class = "container" style="margin-top: 50px; margin-left: 600px">
+	<form class="form-inline"> 
+  	<input type="button" class="btn btn-primary" onclick="location.href='add.html';" style="font-size: 25px" value="Add" />
+  	<input type="button" class="btn btn-primary" onclick="location.href='http://google.com';" style="font-size: 25px; margin-left: 40px" value="Delete" />
+  	<input type="button" class="btn btn-primary" onclick="location.href='http://google.com';" style="font-size: 25px; margin-left: 40px" value="Update" />
+	</form>
+</div> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    
+    update();
+
+	function update(){
+		var xmlhttp, myObj, x, txt = "";
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		        myObj = JSON.parse(this.responseText);
+		        var i=0;
+		        txt+="<tr style=' background-color: #f1f1f1;'><th>Sr no.</th><th>Name</th><th>Author</th><th>Avaibility</th><th>Description</th></tr>";
+		        for (x in myObj) {
+		        	var sr = ++i;
+		            txt +="<tr><td>"+ sr +"</td><td>"+ myObj[x].name + "</td><td>"+ myObj[x].author+"</td><td>"+ myObj[x].avaibility+"</td><td>"+ myObj[x].description+"</td></tr>";
+
+		        }
+		        document.getElementById("list").innerHTML = txt;
+		    }
+		};
+		xmlhttp.open("GET", "http://127.0.0.1:8081/getdata", true);
+		xmlhttp.send();
+	}
+   setInterval(update,4000);
+	
+</script>
+</html>
