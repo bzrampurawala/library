@@ -28,18 +28,22 @@ app.post('/adddata', urlencodedParser, function (req, res) {
   name = req.body.name;
   author = req.body.author;
   description = req.body.description;
-  connection.query("INSERT INTO `books`(`name`, `author`, `avaibility`, `description`) VALUES (?,?,'Available',?)", [name, author,description] ,
+  if(name != "" && description != "" && author != ""){
+    connection.query("INSERT INTO `books`(`name`, `author`, `avaibility`, `description`) VALUES (?,?,'Available',?)", [name, author,description] ,
     function(error,results,fields){
       if (error) throw error;
-      open("file:///C:/burhan/Programs/nodejs/mini%20project/library.html", "chrome");
-  });
+      res.send(results);
+    });
+  }
+  else{
+    res.send("error");
+  }
 })
 app.post('/deletedata', function (req, res) {
   connection.query("DELETE FROM `books` WHERE `name` = ?",[req.body.name], function(error,results,fields){
       if (error) throw error;
-
-      open("file:///C:/burhan/Programs/nodejs/mini%20project/library.html", "chrome");
-  });
+      res.send(results);
+    });
 })
 
 var server = app.listen(8081, function () {
