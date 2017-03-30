@@ -40,7 +40,7 @@
 			       		alert("Unable to add book");
 			    	}
 				};
-				xmlhttp.open("POST", "http://127.0.0.1:8081/adddata/", true);
+				xmlhttp.open("POST", "http://127.0.0.1:8081/adddata", true);
 				
 				var params = $('form').serialize();
 				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
