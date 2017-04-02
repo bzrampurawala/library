@@ -27,7 +27,7 @@ app.get('/getdata', function (req, res) {
 var name,author,description,av;
 //adding a new book
 app.post('/adddata', urlencodedParser, function (req, res) {
-  name = req.body.name;
+  name = req.body.addname;
   author = req.body.author;
   description = req.body.description;
   if(name != "" && description != "" && author != ""){
@@ -42,18 +42,34 @@ app.post('/adddata', urlencodedParser, function (req, res) {
   }
 })
 //deleting a book (not yet complete)
-app.post('/deletedata', function (req, res) {
-  connection.query("DELETE FROM `books` WHERE `name` = ?",[req.body.name], function(error,results,fields){
+app.post('/deletedata', urlencodedParser,  function (req, res) {
+  var name = req.body.deletename;
+  connection.query("DELETE FROM `books` WHERE `name` = ?",[name], function(error,results,fields){
       if (error) throw error;
       res.send(results);
     });
 })
 // updating a book(not yet complete)
-app.post('/deletedata', function (req, res) {
-  connection.query("UPDATE `books` SET `avaibility` = 0",[req.body.name], function(error,results,fields){
+app.post('/updatedata', urlencodedParser ,function (req, res) {
+  connection.query("SELECT `name`, `author`, `avaibility`, `description` FROM `books` WHERE `name` = ?",[req.body.updatename],function (
+    error, results, fields) {
+      if (error) throw error;
+      var a = results[0];
+      var t = ['avaibility'];
+      var avaibility = 1;
+      if (t == 1) {
+          avaibility = 0;
+      }
+      connection.query("UPDATE `books` SET `avaibility` = ? WHERE `name` = ? ",[avaibility, req.body.updatename] , function(error,results,fields){
       if (error) throw error;
       res.send(results);
     });
+  });
+
+  // connection.query("UPDATE `books` SET `avaibility` = 0 WHERE `name` = ? ",[req.body.updatename], function(error,results,fields){
+  //     if (error) throw error;
+  //     res.send(results);
+  //   });
 })
 var server = app.listen(8081, function () {
    var host = server.address().address
