@@ -55,7 +55,7 @@ app.post('/updatedata', urlencodedParser ,function (req, res) {
     error, results, fields) {
       if (error) throw error;
       var a = results[0];
-      var t = ['avaibility'];
+      var t = a['avaibility'];
       var avaibility = 1;
       if (t == 1) {
           avaibility = 0;
