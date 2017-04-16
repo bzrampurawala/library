@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `books` (
-  `name` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL PRIMARY KEY,
   `author` varchar(100) NOT NULL,
   `avaibility` int(1) NOT NULL,
   `description` varchar(500) NOT NULL
